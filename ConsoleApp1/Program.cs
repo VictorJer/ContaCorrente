@@ -4,6 +4,21 @@ internal partial class Program
 { // conta corrente
     private static void Main(string[] args)
     {
+        ContaCorrenteUsuario conta = new ContaCorrenteUsuario
+        {
+            Titular = "João Silva",
+            NumeroIdentificacao = "123456789",
+            Saldo = 1000.00m,
+            LimiteDebito = 500.00m
+        };
+
+        ContaCorrenteUsuario contaDestino = new ContaCorrenteUsuario
+        {
+            Titular = "Maria Souza",
+            NumeroIdentificacao = "987654321",
+            Saldo = 500.00m,
+            LimiteDebito = 300.00m
+        };
 
         do
         {
