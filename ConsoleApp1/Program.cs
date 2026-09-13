@@ -4,21 +4,9 @@ internal partial class Program
 { // conta corrente
     private static void Main(string[] args)
     {
-        ContaCorrenteUsuario conta = new ContaCorrenteUsuario
-        {
-            Titular = "João Silva",
-            NumeroIdentificacao = "123456789",
-            Saldo = 1000.00m,
-            LimiteDebito = 500.00m
-        };
-
-        ContaCorrenteUsuario contaDestino = new ContaCorrenteUsuario
-        {
-            Titular = "Maria Souza",
-            NumeroIdentificacao = "987654321",
-            Saldo = 500.00m,
-            LimiteDebito = 300.00m
-        };
+        string usuario = "vitu";
+        decimal saldoConta = 1000;
+        decimal limiteDebito = 1200;
 
         do
         {
@@ -29,28 +17,31 @@ internal partial class Program
             Console.WriteLine("1 - sacar");
             Console.WriteLine("2 - depositar");
             Console.WriteLine("3 - consultar saldo");
-            Console.WriteLine("4 - sair");
+            Console.WriteLine("S - sair");
             Console.WriteLine("------------------------------------------");
-            string opcao = Console.ReadLine();
+            string? opcao = Console.ReadLine()?.ToLower();
 
-            switch (opcao)
+            if (opcao == "s")
+                break;
+            else if (opcao == "1")
             {
-                case "1":
-                    conta.Sacar();
-                    break;
-                case "2":
-                    conta.Depositar();
-                    break;
-                case "3":
-                    conta.ConsultarSaldo();
-                    break;
-                case "4":
-                    Console.WriteLine("Obrigado por usar nosso sistema bancário. Até logo!");
-                    break;
-                default:
-                    Console.WriteLine("Opção inválida. Por favor, escolha uma opção válida.");
-                    break;
+                System.Console.WriteLine("quanto deseja sacar:");
+                decimal quantoSacar = Convert.ToDecimal(Console.ReadLine());
+
+                saldoConta -= quantoSacar;
             }
+            else if (opcao == "2")
+            {
+                System.Console.WriteLine("valor do deposito:");
+                decimal quantoDeposito = Convert.ToDecimal(Console.ReadLine());
+
+                saldoConta += quantoDeposito;
+            }
+            else if (opcao == "3")
+            {
+                System.Console.WriteLine($"saldo da conta {saldoConta}");
+            }
+
         } while (true);
 
     }
