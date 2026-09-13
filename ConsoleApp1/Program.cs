@@ -1,22 +1,27 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 internal partial class Program
 { // conta corrente
     private static void Main(string[] args)
     {
-        string usuario = "vitu";
-        decimal saldoConta = 1000;
-        decimal limiteDebito = 1200;
+        ContaCorrente conta1 = new ContaCorrente();
+        conta1.idConta = RandomNumberGenerator.GetInt32(1, 101);
+        conta1.titular = "vitu";
+        conta1.saldoConta = 1200;
+        conta1.limiteDebito = 1000;
 
-        string usuario2 = "thi";
-        decimal saldoConta2 = 12000;
-        decimal limiteDebito2 = 6000;
+        ContaCorrente conta2 = new ContaCorrente();
+        conta2.idConta = RandomNumberGenerator.GetInt32(1, 101);
+        conta2.titular = "thi";
+        conta2.saldoConta = 10000;
+        conta2.limiteDebito = 1000;
 
         do
         {
 
             Console.WriteLine("------------------------------------------");
-            Console.WriteLine("Bem-vindo ao sistema bancário!");
+            Console.WriteLine($"Bem-vindo ao sistema bancário, numero de identificação {conta1.idConta} de {conta1.titular}!");
             Console.WriteLine("------------------------------------------");
             Console.WriteLine("1 - sacar");
             Console.WriteLine("2 - depositar");
@@ -31,55 +36,82 @@ internal partial class Program
 
             else if (opcao == "1")
             {
-                System.Console.WriteLine("quanto deseja sacar:");
-                decimal quantoSacar = Convert.ToDecimal(Console.ReadLine());
-
-                if (saldoConta <= -limiteDebito)
-                {
-                    System.Console.WriteLine("O valor Limite de debito da foi ultapassado!");
-                    Console.ReadLine();
-                }
-                else
-                {
-                    saldoConta -= quantoSacar;
-                }
-
+                conta1.Sacar();
             }
 
             else if (opcao == "2")
             {
-                System.Console.WriteLine("valor do deposito:");
-                decimal quantoDeposito = Convert.ToDecimal(Console.ReadLine());
-
-                saldoConta += quantoDeposito;
+                conta1.Depositar();
             }
 
             else if (opcao == "3")
             {
-                System.Console.WriteLine($"saldo da conta {saldoConta}");
+                conta1.ObterSaldo();
             }
 
             else if (opcao == "4")
             {
-                System.Console.WriteLine("Digite o valor que deseja transferir:");
-                decimal valorTrasferencia = Convert.ToDecimal(Console.ReadLine());
-
-                // validação do saldo da conta
-                if (saldoConta <= valorTrasferencia)
-                {
-                    System.Console.WriteLine("saldo insuficiente");
-                }
-                else
-                {
-                    saldoConta -= valorTrasferencia;
-                    saldoConta2 += valorTrasferencia;
-
-                    System.Console.WriteLine($"O valor de {valorTrasferencia} foi trasferido");
-                    Console.ReadLine();
-                }
+                conta1.Trasferir(conta2);
             }
 
         } while (true);
 
     }
 }
+class ContaCorrente
+{
+    public int idConta;
+    public string titular;
+    public decimal saldoConta;
+    public decimal limiteDebito;
+
+    public void Sacar()
+    {
+        System.Console.WriteLine("quanto deseja sacar:");
+        decimal quantoSacar = Convert.ToDecimal(Console.ReadLine());
+
+        if (saldoConta <= -limiteDebito)
+        {
+            System.Console.WriteLine("O valor Limite de debito da foi ultapassado!");
+            Console.ReadLine();
+        }
+        else
+        {
+            saldoConta -= quantoSacar;
+        }
+    }
+
+    public void Depositar()
+    {
+        System.Console.WriteLine("valor do deposito:");
+        decimal quantoDeposito = Convert.ToDecimal(Console.ReadLine());
+
+        saldoConta += quantoDeposito;
+    }
+
+    public void Trasferir(ContaCorrente contaDestino)
+    {
+        System.Console.WriteLine("Digite o valor que deseja transferir:");
+        decimal valorTrasferencia = Convert.ToDecimal(Console.ReadLine());
+
+        // validação do saldo da conta
+        if (saldoConta <= valorTrasferencia)
+        {
+            System.Console.WriteLine("saldo insuficiente");
+        }
+        else
+        {
+            saldoConta -= valorTrasferencia;
+            contaDestino.saldoConta += valorTrasferencia;
+
+            System.Console.WriteLine($"O valor de {valorTrasferencia} foi trasferido");
+            Console.ReadLine();
+        }
+    }
+
+    public void ObterSaldo()
+    {
+        System.Console.WriteLine($"saldo da conta {saldoConta}");
+    }
+}
+
