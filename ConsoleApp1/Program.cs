@@ -51,7 +51,7 @@ internal partial class Program
 
             else if (opcao == "4")
             {
-                conta1.Trasferir(conta2);
+                conta1.TrasferirPara(conta2);
             }
 
         } while (true);
@@ -89,7 +89,7 @@ class ContaCorrente
         saldoConta += quantoDeposito;
     }
 
-    public void Trasferir(ContaCorrente contaDestino)
+    public void TrasferirPara(ContaCorrente contaDestino)
     {
         System.Console.WriteLine("Digite o valor que deseja transferir:");
         decimal valorTrasferencia = Convert.ToDecimal(Console.ReadLine());
