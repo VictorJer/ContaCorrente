@@ -1,4 +1,4 @@
-class ContaCorrente
+public class ContaCorrente
 {
     public int idConta;
     public string titular;
@@ -27,23 +27,25 @@ class ContaCorrente
     public bool TrasferirPara(ContaCorrente contaDestino, decimal valorTrasferencia)
     {
 
+        var resultado = this.Sacar(valorTrasferencia);
+
+
         // validação do saldo da conta
-        if (saldoConta < valorTrasferencia)
+        if (!resultado)
         {
             return false;
         }
         else
         {
-            saldoConta -= valorTrasferencia;
-            contaDestino.saldoConta += valorTrasferencia;
+            contaDestino.Depositar(valorTrasferencia);
 
             return true;
         }
     }
 
-    public void ObterSaldo()
+    public decimal ObterSaldo()
     {
-        System.Console.WriteLine($"saldo da conta {saldoConta}");
+        return saldoConta;
     }
 }
 
